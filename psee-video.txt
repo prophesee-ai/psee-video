@@ -1,0 +1,29 @@
+Prophesee FPGA-based Media Video Device
+=================================
+
+Video Media Controller node
+---------------------------
+
+This is the media controller node for video capture support. It is a big blob
+integrating the sensor control interface and re-mapping the sensor regbanks into
+its own. It relies on standard DMA implementation (dmaengine compatible) to make
+video data available to the user.
+
+Required properties:
+  - compatible: should be "psee,video".
+  - reg: physical base address of FPGA registers and length of memory mapped
+    region.
+  - dmas: list of DMA and channel numbers that the driver may use.
+  - dma-names: identifiers for the DMA channels. The driver will use the channel
+    called "output" to get the event stream out of the video IP.
+
+example:
+
+ps_m_axi_lite_o@a0000000 {
+	compatible ="psee,video";
+	reg = <0x0 0xa0000000 0x0 0x1000000>;
+	dmas = <&axi_dma 0
+		&axi_dma 1>;
+	dma-names = "input", "output";
+};
+
